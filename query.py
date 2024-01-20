@@ -10,11 +10,10 @@ from dotenv import load_dotenv
 load_dotenv()
 
 ASTRA_DB_SECURE_BUNDLE_PATH = os.environ["ASTRA_DB_SECURE_BUNDLE_PATH"] 
-
 ASTRA_DB_APPLICATION_TOKEN = os.environ["ASTRA_DB_APPLICATION_TOKEN"]
 ASTRA_DB_KEYSPACE = "vector"
 
-# this
+# Create connection to Astra
 cluster = Cluster(
     cloud={
         "secure_connect_bundle": ASTRA_DB_SECURE_BUNDLE_PATH,
@@ -31,20 +30,21 @@ openai.api_key=os.environ["OPENAI_API_KEY"]
 
 embedding_model_name = "text-embedding-ada-002"
 
+# Function for finding the closest quote to a given quote
 def find_quote_and_author(query_quote, n):
+
+    # Create the embedding for the query quote
     query_vector = openai.Embedding.create(
         input=[query_quote],
         engine=embedding_model_name,
     ).data[0].embedding
     
+    # Create the select statement for the query_quote
     search_statement = f"""SELECT playerline, player FROM vector.shakespeare_cql
             ORDER BY embedding_vector ANN OF %s
             LIMIT %s;
         """
-    # For best performance, one should keep a cache of prepared statements (see the insertion code above)
-    # for the various possible statements used here.
-    # (We'll leave it as an exercise to the reader to avoid making this code too long.
-    # Remember: to prepare a statement you use '?' instead of '%s'.)
+    
     query_values = tuple([query_vector] + [n])
     result_rows = session.execute(search_statement, query_values)
 
@@ -55,8 +55,8 @@ def find_quote_and_author(query_quote, n):
 
 completion_model_name = "gpt-3.5-turbo"
 
-generation_prompt_template = """"Generate an answer to a question. Use only the information in the provided documents. 
-Answer with {wordcount} words.  If you don't know, just say you don't know, don't try to make up an answer.  Be as truthful as possible.
+generation_prompt_template = """"
+Read the context and summarize it.  Use only this summary to answer the question using {wordcount} words. If you don't know, just say you don't know, don't try to make up an answer.  Be as truthful as possible.
 
 REFERENCE TOPIC: "{topic}"
 
@@ -65,6 +65,9 @@ ACTUAL EXAMPLES:
 """
 
 def generate_quote(topic, n=100, author=None, tags=None):
+    # Override the number of documents
+    if len(sys.argv) > 3:
+        n=int(sys.argv[3])
     quotes = find_quote_and_author(query_quote=topic, n=n)
     if quotes:
         prompt = generation_prompt_template.format(
@@ -72,15 +75,20 @@ def generate_quote(topic, n=100, author=None, tags=None):
             wordcount=sys.argv[1],
             examples="\n".join(f"  - {quote[0]}" for quote in quotes),
         )
+        print(prompt)
         # a little logging:
         print("** quotes found:")
         for q, a in quotes:
-            print(f"**    - {q} ({a})")
+            print(f"{q} ({a})")
         print("** end of logging")
-        #
+
+        system_prompt = "You will be provided with several documents. Create a summary of the documents to answer the question. Your task is to answer the question using only the summary. If the document does not contain the information needed to answer this question then simply write: Insufficient information. "
+
+        # Generate the answer using the prompt
         response = openai.ChatCompletion.create(
             model=completion_model_name,
-            messages=[{"role": "user", "content": prompt}],
+            messages=[{"role": "user", "content": prompt},
+                      {"role": "system", "content":system_prompt}],
             temperature=0.7,
             max_tokens=320,
         )

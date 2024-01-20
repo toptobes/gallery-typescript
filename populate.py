@@ -6,13 +6,18 @@ from getpass import getpass
 import openai
 from uuid import uuid4
 
+from dotenv import load_dotenv
+
+load_dotenv()
+
 try:
     from google.colab import files
+
     IS_COLAB = True
 except ModuleNotFoundError:
     IS_COLAB = False
 
-ASTRA_DB_SECURE_BUNDLE_PATH = os.environ["ASTRA_DB_SECURE_BUNDLE_PATH"] 
+ASTRA_DB_SECURE_BUNDLE_PATH = os.environ["ASTRA_DB_SECURE_BUNDLE_PATH"]
 
 ASTRA_DB_APPLICATION_TOKEN = os.environ["ASTRA_DB_APPLICATION_TOKEN"]
 ASTRA_DB_KEYSPACE = "vector"
@@ -27,7 +32,7 @@ cluster = Cluster(
     ),
 )
 session = cluster.connect()
-keyspace = ASTRA_DB_KEYSPACE 
+keyspace = ASTRA_DB_KEYSPACE
 
 delete_table_statement = f"""DROP TABLE IF EXISTS vector.shakespeare_cql;"""
 session.execute(delete_table_statement)
@@ -52,7 +57,7 @@ create_vector_index_statement = f"""CREATE CUSTOM INDEX IF NOT EXISTS idx_embedd
 session.execute(create_vector_index_statement)
 print("Created index.")
 
-openai.api_key="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"
+openai.api_key = os.environ["OPENAI_API_KEY"]
 
 embedding_model_name = "text-embedding-ada-002"
 
@@ -62,7 +67,7 @@ prepared_insertion = session.prepare(
     f"INSERT INTO vector.shakespeare_cql (dataline, player, playerline, embedding_vector) VALUES (?,?,?,?)"
 )
 
-# 
+#
 for index in range(len(quote_array)):
     if quote_array[index]["Play"] != "Romeo and Juliet":
         continue
@@ -70,19 +75,22 @@ for index in range(len(quote_array)):
     previous_quote = ""
     next_quote = ""
     if index > 0:
-        previous_quote = quote_array[index-1]["PlayerLine"]
+        previous_quote = quote_array[index - 1]["PlayerLine"]
     if index < len(quote_array):
-        next_quote = quote_array[index+1]["PlayerLine"]
-    quote_input = previous_quote + "\n" + quote_array[index]["PlayerLine"] + "\n" + next_quote
-    result = openai.Embedding.create(
-        input=quote_input,
-        engine=embedding_model_name
+        next_quote = quote_array[index + 1]["PlayerLine"]
+    quote_input = (
+        previous_quote + "\n" + quote_array[index]["PlayerLine"] + "\n" + next_quote
     )
+    result = openai.Embedding.create(input=quote_input, engine=embedding_model_name)
 
     session.execute(
         prepared_insertion,
-        (quote_id, quote_array[index]["Player"], quote_array[index]["PlayerLine"], result.data[0].embedding)
+        (
+            quote_id,
+            quote_array[index]["Player"],
+            quote_array[index]["PlayerLine"],
+            result.data[0].embedding,
+        ),
     )
 
     print(quote_array[index]["Player"] + " : " + quote_array[index]["PlayerLine"])
-
