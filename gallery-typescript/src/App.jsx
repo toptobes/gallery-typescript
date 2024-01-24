@@ -51,21 +51,20 @@ function App(props) {
   };
 
   const fetchHomeApps = async () => {
+    let filterlist = filters.join(",");
+    let tagstring = "";
+    if (filters.length !== 0) {
+      tagstring = "?tag=" + filterlist;
+    }
+
     if (update) {
       setUpdate(false);
-      let filterlist = filters.join(",");
-      let tagstring = "";
-      if (filters.length !== 0) {
-        tagstring = "?tag=" + filterlist;
-      }
-      if (home.length === 0) {
-        const response = await axios.get(
-          "/.netlify/functions/getApps" + tagstring
-        );
-        console.log("RESPONSE DATA" + response.data);
-        setHome(response.data);
-      }
-      console.log("README IS" + JSON.stringify(readme));
+      const response = await axios.get(
+        "/.netlify/functions/getApps" + tagstring
+      );
+      console.log("RESPONSE DATA" + response.data);
+      setHome(response.data);
+
       if (readme === undefined) {
         setReadme({});
         let newReadme = {};
@@ -134,6 +133,7 @@ function App(props) {
   };
 
   useEffect(() => {
+    console.log("FITTERS" + filters);
     let filterlist = filters.join(",");
     setUpdate(true);
     fetchWorkshops(filterlist);
@@ -159,6 +159,7 @@ function App(props) {
       console.log("RETURNNOTDONE");
       return;
     }
+    console.log("HANDLEFILTERS for " + tagname);
     // Open the left hand nav section for
     // the tag that was selected
     if (section["languages"].includes(tagname)) {
@@ -177,6 +178,7 @@ function App(props) {
       setOther(true);
     }
 
+    console.log("FILTERS" + filters);
     if (filters) {
       if (filteredTag(tagname)) {
         setFilters(filters.filter((item) => item !== tagname));
