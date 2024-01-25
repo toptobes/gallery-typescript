@@ -223,35 +223,6 @@ const LeftBar = (props) => {
                 ))}
               </span>
             )}
-            <h4>
-              Other{" "}
-              <button
-                type="button"
-                onClick={() => {
-                  props.setOther(!props.showOther);
-                }}
-              >
-                {" "}
-                <ChevronDownIcon className=" h-5 w-3 " />
-              </button>
-            </h4>
-            {props.showOther && (
-              <span id="other">
-                {section["other"].map((tag, index) => (
-                  <button
-                    key={index}
-                    className={
-                      props.filteredTag(tag)
-                        ? "inline-flex items-center rounded border border-transparent bg-indigo-600 px-2.5 py-1.5 text-center text-xs font-bold text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                        : "inline-flex items-center rounded border border-transparent bg-indigo-100 px-2.5 py-1.5 text-center text-xs font-bold text-indigo-700 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                    }
-                    onClick={(e) => props.onClick(tag, e)}
-                  >
-                    {tag}
-                  </button>
-                ))}
-              </span>
-            )}
           </div>
         )}
       </div>

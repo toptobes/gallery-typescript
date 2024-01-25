@@ -5,6 +5,7 @@ import DropDown from "./DropDown.js";
 
 const Card = (props) => {
   let application = props.application;
+  let key = application.key;
   const [showModal, setShowModal] = useState(false);
 
   return (
@@ -87,6 +88,13 @@ const Card = (props) => {
                 onClick={() => setShowModal(true)}
               >
                 Learn More
+              </button>
+              <button
+                className="bg-slate-200 text-indigo-700 active:bg-sky-500 
+      font-bold px-6 mt-16 rounded shadow hover:shadow-lg outline-none focus:outline-none"
+                onClick={(e) => props.handleSimilarSearch(key, e)}
+              >
+                Find similar applications
               </button>
             </div>
             <Modal

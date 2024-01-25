@@ -18,6 +18,7 @@ const Home = (props) => {
               filters={props.filters}
               showHide={props.showHide}
               readme={props.readme}
+              update={props.update}
               slugs={props.slugs}
               setSlugs={props.setSlugs}
               getReadme={props.getReadme}

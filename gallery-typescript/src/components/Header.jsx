@@ -1,10 +1,12 @@
 import { Link } from "react-router-dom";
+
 import * as React from "react";
 const navigation = [
   { name: "Home", href: "/" },
   { name: "Workshops", href: "/workshops" },
   { name: "Starter Apps", href: "/starters" },
   { name: "Data Tools", href: "/datatools" },
+  { name: "Search Page", href: "/search" },
 ];
 
 const Header = () => {
