@@ -5,7 +5,6 @@ import DropDown from "./DropDown.js";
 
 const Card = (props) => {
   let application = props.application;
-  let key = application.key;
   const [showModal, setShowModal] = useState(false);
 
   return (
@@ -18,7 +17,7 @@ const Card = (props) => {
           <div className="heroimage" onClick={() => setShowModal(true)}>
             {application?.urls?.heroimage && (
               <img
-                className="mx-auto h-32 w-32 flex-shrink-0 rounded-full"
+                className="mx-auto flex-shrink-0"
                 src={application.urls.heroimage}
                 alt={application.name}
                 width="100px"
@@ -66,7 +65,7 @@ const Card = (props) => {
             <dd className="text-sm text-gray-500 p-2">
               {application?.tags?.map((tagname, index) => (
                 <button
-                  key={index}
+                  key={index + "-" + tagname}
                   className={
                     props.filteredTag(tagname)
                       ? "btn btn-primary btn-sm"
@@ -80,34 +79,23 @@ const Card = (props) => {
             </dd>
           </dl>
           <div className="row float-right">
-            <div className="col-auto">
-              <button
-                className="bg-slate-200 text-indigo-700 active:bg-sky-500 
-      font-bold px-6 mt-16 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
-                type="button"
-                onClick={() => setShowModal(true)}
-              >
-                Learn More
-              </button>
-              <button
-                className="bg-slate-200 text-indigo-700 active:bg-sky-500 
-      font-bold px-6 mt-16 rounded shadow hover:shadow-lg outline-none focus:outline-none"
-                onClick={(e) => props.handleSimilarSearch(key, e)}
-              >
-                Find similar applications
-              </button>
+            <div className="col-auto float-right">
+              <Modal
+                application={application}
+                filteredTag={props.filteredTag}
+                slugs={props.slugs}
+                readme={props.readme}
+                setSlugs={props.setSlugs}
+                showModal={showModal}
+                setShowModal={setShowModal}
+                getReadme={props.getReadme}
+              />
+              <DropDown
+                application={application}
+                setShowModal={setShowModal}
+                handleSimilarSearch={props.handleSimilarSearch}
+              />
             </div>
-            <Modal
-              application={application}
-              filteredTag={props.filteredTag}
-              slugs={props.slugs}
-              readme={props.readme}
-              setSlugs={props.setSlugs}
-              showModal={showModal}
-              setShowModal={setShowModal}
-              getReadme={props.getReadme}
-            />
-            <DropDown application={application} />
           </div>
         </div>
         <div></div>

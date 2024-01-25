@@ -5,6 +5,7 @@ import Home from "./pages/Home";
 import LeftBar from "./components/LeftBar";
 import parse from "html-react-parser";
 import axios from "axios";
+import Spinner from "./components/Spinner";
 
 import "./App.css";
 import "./index.css";
@@ -15,6 +16,7 @@ function App(props) {
   const [update, setUpdate] = useState(true);
   const [home, setHome] = useState([]);
   const [searchString, setSearchString] = useState("");
+  const [isFetching, setIsFetching] = useState(true);
   const [showLang, setLang] = useState(false);
   const [showAPI, setAPI] = useState(false);
   const [showFrame, setFrame] = useState(false);
@@ -51,12 +53,11 @@ function App(props) {
 
     if (update) {
       setUpdate(false);
-
+      setIsFetching(true);
       const response = await axios.get(
         "/.netlify/functions/getApps" + tagstring
       );
-
-      setHome(response.data);
+      setHome(filterApps(response.data));
 
       if (readme === undefined) {
         setReadme({});
@@ -71,6 +72,7 @@ function App(props) {
         }
         setReadme(newReadme);
       }
+      setIsFetching(false);
     }
   };
 
@@ -95,7 +97,6 @@ function App(props) {
     const response = await axios.get(
       "/.netlify/functions/searchApps?similar=" + searchApp
     );
-
     setHome(response.data);
   };
 
@@ -112,8 +113,11 @@ function App(props) {
 
   useEffect(() => {
     let filterlist = filters.join(",");
-    setUpdate(true);
+    setIsFetching(true);
     fetchTags(filterlist);
+    fetchHomeApps();
+    filterApps(home);
+    console.log(searchString);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filters, searchString]);
 
@@ -127,6 +131,8 @@ function App(props) {
 
   const handleFilters = (tagname, e) => {
     e.preventDefault();
+    setIsFetching(true);
+    setUpdate(true);
 
     if (section === {}) {
       console.log("RETURNNOTDONE");
@@ -161,8 +167,44 @@ function App(props) {
     }
   };
 
+  const filterApps = (filterapps) => {
+    if (filters === []) {
+      return filterapps;
+    }
+
+    let newapps = [];
+    // eslint-disable-next-line
+    for (const app of filterapps) {
+      if (
+        !app["urls"] ||
+        !app["urls"]["github"] ||
+        app["urls"]["github"].length === 0
+      ) {
+        continue;
+      }
+      const slug = app["key"];
+
+      if (searchString !== "") {
+        const appreadme = JSON.stringify(readme[slug]);
+        console.log(appreadme);
+        console.log(searchString + "is searchString");
+        if (appreadme) {
+          const appReadMe = appreadme.toLowerCase();
+          if (!appReadMe.includes(searchString.toLowerCase())) {
+            continue;
+          }
+        }
+      }
+
+      newapps.push(app);
+    }
+    newapps.sort((a, b) => b.stargazers - a.stargazers);
+    return newapps;
+  };
+
   return (
     <>
+      <Spinner isFetching={isFetching} />
       <HashRouter>
         <div className="row">
           <LeftBar

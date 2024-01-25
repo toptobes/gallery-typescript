@@ -4,6 +4,7 @@ import { ChevronDownIcon } from "@heroicons/react/20/solid";
 
 const DropDown = (props) => {
   const application = props.application;
+  const setShowModal = props.setShowModal;
 
   let urls = [];
   if (application.urls === {}) {
@@ -26,10 +27,25 @@ const DropDown = (props) => {
 
   return (
     <div className="col-auto">
-      <Menu as="div" className="relative inline-block text-left leading-8">
+      <Menu as="div" className="relative inline-block text-left">
+        <Menu.Button
+          className="bg-slate-200 text-indigo-700 active:bg-sky-500 
+              font-bold px-6 mt-16 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
+          type="button"
+          onClick={() => setShowModal(true)}
+        >
+          Learn More
+        </Menu.Button>
+        <Menu.Button
+          className="bg-slate-200 text-indigo-700 active:bg-sky-500 
+              font-bold px-6 mt-16 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
+          onClick={(e) => props.handleSimilarSearch(application.key, e)}
+        >
+          Similar Apps
+        </Menu.Button>
         <Menu.Button
           className="inline-flex w-full bg-indigo-500 text-white active:bg-indigo-200 
-      font-bold px-6 pt-.5 mt-16 rounded shadow hover:shadow-lg outline-none focus:outline-none leading-8"
+      font-bold mt-16 px-6 pt-.5  rounded shadow hover:shadow-lg outline-none focus:outline-none"
         >
           Try it Out
           <ChevronDownIcon className="-mr-2 h-8 w-5 " aria-hidden="true" />

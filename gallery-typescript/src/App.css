@@ -23369,6 +23369,28 @@ span.bold {
   line-height: 40px;
 }
 
+.loader {
+  border: 10px solid #f3f3f3;
+  border-top: 10px solid #3498db;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  position: absolute;
+  height: 10vh;
+  width: 10vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 .app-gallery__markdown h3,
 .app-gallery__markdown h4 {
   font-size: 1rem;

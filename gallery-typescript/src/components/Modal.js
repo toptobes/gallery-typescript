@@ -26,7 +26,7 @@ const Modal = (props) => {
       {showModal ? (
         <div id="modal">
           <div className="flex flex-wrap justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none bottom-20 top-20">
-            <div className="relative w-auto my-6 mx-auto max-w-3xl">
+            <div className="relative w-auto">
               <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                 <div className="flex items-start justify-between p-5 border-b border-solid border-gray-300 rounded-t ">
                   <h2 className="text-3xl font=semibold">

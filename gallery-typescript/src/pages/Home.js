@@ -22,6 +22,8 @@ const Home = (props) => {
               slugs={props.slugs}
               setSlugs={props.setSlugs}
               getReadme={props.getReadme}
+              handleSimilarSearch={props.handleSimilarSearch}
+              setShowModal={props.setShowModal}
               {...props}
             />
           ))}
