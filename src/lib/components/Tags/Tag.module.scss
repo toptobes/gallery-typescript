@@ -1,0 +1,41 @@
+@use "src/styles/lib" as l;
+
+@mixin invert-tag {
+  color: var(--inverted) !important;
+  background-color: var(--main) !important;
+
+  &::before {
+    background-color: var(--inverted) !important;
+  }
+}
+
+.tag {
+  @include l.reset-button;
+  font-size: 14px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  color: var(--main);
+  padding: .3rem .6rem;
+  border: 1.5px var(--main) solid;
+  border-radius: 1rem;
+  transition: color l.$btn-color-trans, background-color l.$btn-color-trans;
+
+  &::before {
+    content: '';
+    @include l.size(8px);
+    background-color: var(--main);
+    transition: background-color l.$btn-color-trans;
+    display: inline-block;
+    margin-right: .3rem;
+    border-radius: 8px;
+  }
+
+  &:hover {
+    @include invert-tag;
+  }
+}
+
+.selected {
+  @include invert-tag;
+}

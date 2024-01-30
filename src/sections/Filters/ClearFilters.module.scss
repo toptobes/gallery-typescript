@@ -1,0 +1,14 @@
+@use "src/styles/lib" as l;
+
+.btn {
+  background: none;
+  color: l.$secondary-txt-gray;
+  border: 1px l.$border-gray solid;
+
+  padding: .7rem;
+  border-radius: 10px;
+
+  &:hover, &:active {
+    border-color: l.$d-black;
+  }
+}

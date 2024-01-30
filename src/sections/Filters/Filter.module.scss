@@ -1,0 +1,8 @@
+@use "src/styles/lib" as l;
+
+.em {
+  margin-block: .5rem;
+  display: inline-block;
+  color: l.$very-light-gray;
+  font-size: 1.05rem;
+}

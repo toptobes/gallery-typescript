@@ -1,0 +1,33 @@
+@use "lib" as l;
+
+@import "node_modules/normalize-scss/sass/normalize";
+@include normalize;
+
+:root {
+  font-family: "Roboto Flex", Roboto, Helvetica, Arial, sans-serif;
+  font-weight: 500;
+
+  color-scheme: light dark;
+  color: l.$d-black;
+  background-color: l.$background;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  width: min(90vw, 80rem);
+  padding-block: 2rem;
+  margin: 0 auto;
+  overflow-x: clip;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+button, input {
+  cursor: pointer;
+}

@@ -1,0 +1,9 @@
+@use "src/styles/lib" as l;
+
+.list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  gap: .5rem;
+  flex-wrap: wrap;
+}

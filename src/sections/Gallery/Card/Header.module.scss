@@ -1,0 +1,19 @@
+@use "../../../styles/lib" as l;
+
+.h3 {
+  margin: 0;
+  font-size: 20px;
+  color: white;
+  font-weight: 500;
+}
+
+.list {
+  margin-block: .25rem;
+  width: fit-content;
+  scale: .75;
+  transform-origin: 0 center;
+
+  & > li > button {
+    font-weight: 500;
+  }
+}

@@ -1,0 +1,18 @@
+@use "src/styles/lib" as l;
+
+.header {
+  line-height: 1.5;
+}
+
+.h1 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-block: 0;
+}
+
+.h4 {
+  font-size: 16px;
+  font-weight: normal;
+  color: l.$secondary-txt-gray;
+  margin-block: .25rem;
+}

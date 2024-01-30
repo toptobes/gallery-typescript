@@ -1,0 +1,7 @@
+@use "src/styles/lib" as l;
+
+.cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}

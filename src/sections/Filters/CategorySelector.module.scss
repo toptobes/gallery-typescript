@@ -1,0 +1,73 @@
+@use "src/styles/lib" as l;
+
+$gray: #5C6A85;
+$gap: .5rem;
+$bubble-size: 17px;
+
+.header {
+  @include l.flex-center;
+  justify-content: flex-start;
+  gap: $gap;
+}
+
+.border {
+  @include l.size(2px, 100%);
+  background: #CED0D2;
+  margin-top: -10px;
+  position: relative;
+}
+
+.border--selected {
+  transition: all .2s;
+  @include l.size(2px, 1px);
+  background: l.$m-black;
+  position: absolute;
+  top: 0;
+  left: 7.7rem;
+  transform-origin: 0 0;
+}
+
+.icon {
+  @include l.size(20px);
+  background: l.icon('filter');
+  display: block;
+  filter: invert(43%) sepia(13%) saturate(868%) hue-rotate(181deg) brightness(92%) contrast(90%); // $gray
+  transform: translateY(-1px);
+  background-size: 90%;
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+
+  & > li {
+    display: inline;
+  }
+}
+
+.list > li button {
+  @include l.reset-button;
+  display: inline-flex;
+  padding-inline: $gap;
+  gap: .35rem;
+}
+
+.list > li span {
+  color: $gray;
+}
+
+.list > li em {
+  font-style: normal;
+  background-color: l.$l-black;
+  color: l.$background;
+  @include l.size($bubble-size);
+  display: inline-block;
+  text-align: center;
+  font-size: 10px;
+  line-height: $bubble-size;
+  border-radius: $bubble-size;
+}
+
+.list > li.selected {
+  color: l.$m-black;
+}

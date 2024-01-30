@@ -1,0 +1,7 @@
+@function gray($lightness, $alpha: 1) {
+  @return rgba(0, 0, 0, $alpha);
+}
+
+@function icon($name) {
+  @return url("src/assets/icons/#{$name}.svg") no-repeat center;
+}

@@ -1,0 +1,32 @@
+@mixin size($height, $width: $height) {
+  height: $height;
+  width: $width;
+}
+
+@mixin on-interaction($selector: '', $combinators: '', $prefix-self: true) {
+  @if ($prefix-self) {
+    &#{$selector}:hover #{$combinators}, &#{$selector}:active #{$combinators}, &#{$selector}:focus, &#{$selector}:focus-within #{$combinators} {
+      @content;
+    }
+  } @else {
+    #{$selector}:hover #{$combinators}, #{$selector}:active #{$combinators}, #{$selector}:focus, #{$selector}:focus-within #{$combinators} {
+      @content;
+    }
+  }
+}
+
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin reset-button($outline: true) {
+  background: none;
+  border: none;
+  padding: 0;
+
+  @if not $outline {
+    outline: none;
+  }
+}
