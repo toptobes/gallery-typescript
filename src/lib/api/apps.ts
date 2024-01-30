@@ -35,7 +35,7 @@ const processCards = (cards: CardInfoDTO[]): CardInfo[] =>
   cards.map((dto) => ({
     title: dto.name,
     tags: OrderedSet(dto.tags),
-    url: dto.urls.heroimage ?? '~/assets/images/404.webp',
+    url: dto.urls.heroimage ?? '',
     time: dto.duration ?? 'Unknown',
     difficulty: dto.skilllevel ?? 'Unknown',
     yt: (dto.views !== undefined && dto.likes !== undefined) ? {

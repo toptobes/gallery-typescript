@@ -1,7 +1,7 @@
 @use "../../../styles/lib" as l;
 
 .card-img {
-  background: var(--bg-url) no-repeat center;
+  background: var(--bg-url) no-repeat center, url('~/assets/images/404.webp') no-repeat center;
   background-size: cover;
   aspect-ratio: 2 / 1;
   border-radius: 20px;
