@@ -8,6 +8,11 @@
   position: relative;
 }
 
+.card-img--lazy {
+  @extend .card-img;
+  background: none;
+}
+
 .overlay {
   backdrop-filter: blur(3px);
   @include l.size(100%);
