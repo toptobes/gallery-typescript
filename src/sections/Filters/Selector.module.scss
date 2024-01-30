@@ -47,8 +47,10 @@ $bubble-size: 17px;
 
 .list > li button {
   @include l.reset-button;
-  display: inline-flex;
   padding-inline: $gap;
+
+  align-items: center;
+  display: inline-flex;
   gap: .35rem;
 }
 
@@ -56,18 +58,6 @@ $bubble-size: 17px;
   color: $gray;
 }
 
-.list > li em {
-  font-style: normal;
-  background-color: l.$l-black;
-  color: l.$background;
-  @include l.size($bubble-size);
-  display: inline-block;
-  text-align: center;
-  font-size: 10px;
-  line-height: $bubble-size;
-  border-radius: $bubble-size;
-}
-
-.list > li.selected {
-  color: l.$m-black;
+.list > li.selected span {
+  color: l.$d-black;
 }

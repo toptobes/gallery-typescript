@@ -1,8 +1,8 @@
 import s from './Card.module.scss';
-import { CardInfo } from '~/sections/Gallery';
 import { Header } from '~/sections/Gallery/Card/Header.tsx';
 import { CSSProperties } from 'react';
 import { WithSelected } from '~/App.tsx';
+import { CardInfo } from '~/lib/api/apps.ts';
 
 export const Card = ({ title, url, tags, selected, setSelected, difficulty, time, yt, gh }: CardInfo & WithSelected) =>
   <article className={s.cardImg} style={{ '--bg-url': `url("${url}")` } as CSSProperties}>

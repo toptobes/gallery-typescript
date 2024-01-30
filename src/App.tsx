@@ -6,8 +6,7 @@ import { useState } from 'react';
 import { UseStateProps } from '~/lib/prelude.ts';
 import { useQuery } from '@tanstack/react-query';
 import { OrderedSet } from 'immutable';
-import { CategoriesDTO } from '~/lib/dto-types.ts';
-import { Categories } from '~/lib/types.ts';
+import { fetchCategories } from '~/lib/api/tags.ts';
 
 export type WithSelected = UseStateProps<OrderedSet<string>, 'selected'>;
 
@@ -18,16 +17,11 @@ export const App = () => <>
   </main>
 </>
 
-const processCategories = (categories: CategoriesDTO): Categories =>
-  categories.reduce((acc, { _id, tags }) => ({ ...acc, [_id]: OrderedSet(tags) }), {});
-
 const Body = () => {
   const query = useQuery({
     queryKey: ['tags'],
-    queryFn: () => fetch('/.netlify/functions/getTags')
-      .then(res => res.json())
-      .then(processCategories),
-    staleTime: Infinity
+    queryFn: fetchCategories,
+    staleTime: Infinity,
   });
 
   const [selected, setSelected] = useState(OrderedSet<string>());

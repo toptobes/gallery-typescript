@@ -3,5 +3,5 @@
 }
 
 @function icon($name) {
-  @return url("src/assets/icons/#{$name}.svg") no-repeat center;
+  @return url("~/assets/icons/#{$name}.svg") no-repeat center;
 }

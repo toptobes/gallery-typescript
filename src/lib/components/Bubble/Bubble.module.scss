@@ -1,0 +1,14 @@
+@use "src/styles/lib" as l;
+
+.bubble {
+  @include l.size(1.5rem);
+  @include l.flex-center;
+
+  font-size: 12px;
+  line-height: 2rem;
+  font-style: normal;
+
+  color: l.$background;
+  background-color: l.$m-black;
+  border-radius: 50%;
+}

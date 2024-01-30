@@ -1,25 +1,26 @@
-import s from './CategorySelector.module.scss';
+import s from './Selector.module.scss';
 import clsx from 'clsx';
 import { useEffect, useRef, useState } from 'react';
 import { UseStateProps } from '~/lib/prelude.ts';
-import { Categories } from '~/lib/types.ts';
 import { OrderedSet } from 'immutable';
+import { Categories } from '~/lib/api/tags.ts';
+import { Bubble } from '~/lib/components/Bubble';
 
 interface Props extends UseStateProps<string, 'currCategory'> {
   categories: Categories,
   selected: OrderedSet<string>,
 }
 
-export const CategorySelector = ({ categories, selected, currCategory, setCurrCategory }: Props) => {
+export const Selector = ({ categories, selected, currCategory, setCurrCategory }: Props) => {
   const borderRef = useRef<HTMLDivElement>(null!);
   const [selectedRef, setSelectedRef] = useState<HTMLElement>();
 
-  const [selectedStyle, setSelectedStyle] = useState({ transform: `scaleX(0)`, left: 0 });
+  const [selectedStyle, setSelectedStyle] = useState({ transform: 'scaleX(0)', left: 0 });
   const categoryNames = Object.keys(categories);
 
   const onClick = (category: string) => (e: { currentTarget: HTMLElement }) => {
-    setCurrCategory(category);
     setSelectedRef(e.currentTarget);
+    setCurrCategory(category);
   }
 
   useEffect(() => {
@@ -39,7 +40,8 @@ export const CategorySelector = ({ categories, selected, currCategory, setCurrCa
           return <li key={category} className={clsx(category === currCategory && s.selected)}>
             <button onClick={onClick(category)}>
               <span>{category}</span>
-              {numSelected > 0 && <em>{numSelected}</em>}
+              {/*{numSelected > 0 && <em>{numSelected}</em>}*/}
+              {numSelected > 0 && <Bubble number={numSelected} scale={.8}/>}
             </button>
           </li>;
         })
@@ -51,9 +53,7 @@ export const CategorySelector = ({ categories, selected, currCategory, setCurrCa
   </div>;
 }
 
-const calcUnderline = (selected: HTMLElement, border: HTMLElement) => {
-  const borderStart = border.offsetLeft;
-  const left = selected.offsetLeft;
-  const width = selected.offsetWidth;
-  return { transform: `scaleX(${width})`, left: left - borderStart };
-}
+const calcUnderline = (selected: HTMLElement, border: HTMLElement) => ({
+  transform: `scaleX(${selected.offsetWidth})`,
+  left: selected.offsetLeft - border.offsetLeft,
+});
