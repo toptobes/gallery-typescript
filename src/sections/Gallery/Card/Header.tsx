@@ -1,9 +1,9 @@
 import s from './Header.module.scss'
 import { TagsList } from '~/lib/components/Tags';
-import { WithSelected } from '~/App.tsx';
+import { WithFilter } from '~/App.tsx';
 import { Tags } from '~/lib/api/tags.ts';
 
-interface Props extends WithSelected {
+interface Props extends WithFilter {
   title: string,
   tags: Tags,
 }

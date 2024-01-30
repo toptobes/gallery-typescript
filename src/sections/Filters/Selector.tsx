@@ -2,16 +2,15 @@ import s from './Selector.module.scss';
 import clsx from 'clsx';
 import { useEffect, useRef, useState } from 'react';
 import { UseStateProps } from '~/lib/prelude.ts';
-import { OrderedSet } from 'immutable';
 import { Categories } from '~/lib/api/tags.ts';
 import { Bubble } from '~/lib/components/Bubble';
+import { WithFilter } from '~/App.tsx';
 
-interface Props extends UseStateProps<string, 'currCategory'> {
+interface Props extends UseStateProps<string, 'currCategory'>, Pick<WithFilter, 'filter'> {
   categories: Categories,
-  selected: OrderedSet<string>,
 }
 
-export const Selector = ({ categories, selected, currCategory, setCurrCategory }: Props) => {
+export const Selector = ({ categories, filter, currCategory, setCurrCategory }: Props) => {
   const borderRef = useRef<HTMLDivElement>(null!);
   const [selectedRef, setSelectedRef] = useState<HTMLElement>();
 
@@ -28,14 +27,16 @@ export const Selector = ({ categories, selected, currCategory, setCurrCategory }
     const actualSelectedRef = selectedRef ?? document.querySelector<HTMLElement>(`.${s.list} li button`)!;
 
     setSelectedStyle(calcUnderline(actualSelectedRef, borderRef.current));
-  }, [selected, selectedRef]);
+  }, [filter, selectedRef]);
 
   return <div className={s.wrapper}>
     <header className={s.header}>
       <i className={s.icon}/>
       <ul className={s.list}>{
         categoryNames.map((category) => {
-          const numSelected = categories[category].intersect(selected).size;
+          const numSelected = (filter.type === 'tags' )
+            ? categories[category].intersect(filter.tags).size
+            : 0;
 
           return <li key={category} className={clsx(category === currCategory && s.selected)}>
             <button onClick={onClick(category)}>

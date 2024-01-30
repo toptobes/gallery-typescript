@@ -1,13 +1,14 @@
 import s from './Card.module.scss';
 import { Header } from '~/sections/Gallery/Card/Header.tsx';
 import { CSSProperties } from 'react';
-import { WithSelected } from '~/App.tsx';
+import { WithFilter } from '~/App.tsx';
 import { CardInfo } from '~/lib/api/apps.ts';
+import { Similar } from '~/sections/Gallery/Card/Similar.tsx';
 
-export const Card = ({ title, url, tags, selected, setSelected, difficulty, time, yt, gh }: CardInfo & WithSelected) =>
+export const Card = ({ id, title, url, tags, filter, setFilter, difficulty, time, yt, gh }: CardInfo & WithFilter) =>
   <article className={s.cardImg} style={{ '--bg-url': `url("${url}")` } as CSSProperties}>
     <div className={s.overlay}>
-      <Header title={title} tags={tags} setSelected={setSelected} selected={selected}/>
+      <Header title={title} tags={tags} setFilter={setFilter} filter={filter}/>
     </div>
     <div className={s.buttons}>
       <button className={s.learnMore}>Learn More</button>
@@ -27,5 +28,5 @@ export const Card = ({ title, url, tags, selected, setSelected, difficulty, time
         {gh && <div className={s.statForks}>{gh.forks}</div>}
       </div>
     </div>
-    <button className={s.similar}/>
+    <Similar setFilter={setFilter} id={id} title={title}/>
   </article>

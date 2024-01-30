@@ -1,7 +1,9 @@
 import { OrderedSet } from 'immutable';
 import { Tags } from '~/lib/api/tags.ts';
+import { Filter } from '~/App.tsx';
 
 export interface CardInfo {
+  id: string,
   title: string,
   tags: Tags,
   url: string,
@@ -18,6 +20,7 @@ export interface CardInfo {
 }
 
 interface CardInfoDTO {
+  key: string,
   name: string,
   duration?: string,
   skilllevel?: string,
@@ -33,6 +36,7 @@ interface CardInfoDTO {
 
 const processCards = (cards: CardInfoDTO[]): CardInfo[] =>
   cards.map((dto) => ({
+    id: dto.key,
     title: dto.name,
     tags: OrderedSet(dto.tags),
     url: dto.urls.heroimage ?? '',
@@ -48,7 +52,16 @@ const processCards = (cards: CardInfoDTO[]): CardInfo[] =>
     } : undefined,
   }));
 
-export const fetchCards = (tags: Tags) =>
-  fetch('/.netlify/functions/getApps?tag=' + tags.join(','))
+// export const fetchCards = (tags: Tags) =>
+//   fetch('/.netlify/functions/getApps?tag=' + tags.join(','))
+//     .then(res => res.json())
+//     .then(processCards);
+
+export const fetchCards = (filter: Filter) =>
+  fetch(mkUrl(filter))
     .then(res => res.json())
     .then(processCards);
+
+const mkUrl = (filter: Filter) => (filter.type === 'tags')
+  ? '/.netlify/functions/getApps?tag=' + filter.tags.join(',')
+  : '/.netlify/functions/searchApps?similar=' + filter.key;

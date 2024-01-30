@@ -6,9 +6,13 @@ import { useState } from 'react';
 import { UseStateProps } from '~/lib/prelude.ts';
 import { useQuery } from '@tanstack/react-query';
 import { OrderedSet } from 'immutable';
-import { fetchCategories } from '~/lib/api/tags.ts';
+import { fetchCategories, Tags } from '~/lib/api/tags.ts';
 
-export type WithSelected = UseStateProps<OrderedSet<string>, 'selected'>;
+export type WithFilter = UseStateProps<Filter, 'filter'>;
+
+export type Filter =
+  | { type: 'tags', tags: Tags }
+  | { type: 'similar', key: string, title: string }
 
 export const App = () => <>
   <Header/>
@@ -24,16 +28,16 @@ const Body = () => {
     staleTime: Infinity,
   });
 
-  const [selected, setSelected] = useState(OrderedSet<string>());
+  const [filter, setFilter] = useState<Filter>({ type: 'tags', tags: OrderedSet() });
 
   if (!query.data) {
     return <BodyLoading/>;
   }
 
   return <>
-    <Filter categories={query.data} selected={selected} setSelected={setSelected}/>
+    <Filter categories={query.data} filter={filter} setFilter={setFilter}/>
     <div className={s.spacer}/>
-    <Gallery selected={selected} setSelected={setSelected}/>
+    <Gallery filter={filter} setFilter={setFilter}/>
   </>
 }
 
