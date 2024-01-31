@@ -1,12 +1,18 @@
 import { Header } from '~/sections/Gallery/Header.tsx';
-import { Card } from '~/sections/Gallery/Card/Card.tsx';
+// import { Card } from '~/sections/Gallery/Card/Card.tsx';
 import s from './Gallery.module.scss';
 import { useQuery } from '@tanstack/react-query';
 import { AppInfo, fetchCards } from '~/lib/api/apps.ts';
 import { List } from 'immutable';
 import { UseFilter } from '~/lib/filter.ts';
+import lazyWithPreload from 'react-lazy-with-preload';
+import { Suspense } from 'react';
+
+const Card = lazyWithPreload(() => import('~/sections/Gallery/Card/Card').then(m => ({ default: m.Card })));
 
 export const Gallery = ({ filter, ...props }: UseFilter) => {
+  Card.preload().then();
+
   const querylessFilter = { ...filter, query: '' };
 
   const appsQuery = useQuery({
@@ -23,13 +29,15 @@ export const Gallery = ({ filter, ...props }: UseFilter) => {
     ? search(filter.query, appsQuery.data)
     : appsQuery.data;
 
-  return <section aria-label="All application results">
-    <Header numApps={searched.size} filter={filter} {...props}/>
-    <div className={s.cards}>
-      {searched.map((card, i) =>
-        <Card {...card} key={i} filter={filter} {...props}/>)}
-    </div>
-  </section>;
+  return <Suspense fallback={<em>Loading...</em>}>
+    <section aria-label="All application results">
+      <Header numApps={searched.size} filter={filter} {...props}/>
+      <div className={s.cards}>
+        {searched.map((card, i) =>
+          <Card {...card} key={i} filter={filter} {...props}/>)}
+      </div>
+    </section>
+  </Suspense>
 }
 
 const searchFields = [['title', 'Title'], ['desc', 'Description'], ['readme', 'Readme']] as const;

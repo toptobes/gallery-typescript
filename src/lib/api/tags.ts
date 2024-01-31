@@ -24,4 +24,7 @@ const processCategories = (categories: CategoriesDTO): Categories => categories
 export const fetchCategories = () =>
   fetch('/.netlify/functions/getTags')
     .then(res => res.json())
-    .then(processCategories);
+    .then(processCategories)
+    .then(categories => sleep(1000).then(() => categories));
+
+const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
