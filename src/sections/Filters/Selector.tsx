@@ -4,9 +4,9 @@ import { useEffect, useRef, useState } from 'react';
 import { UseStateProps } from '~/lib/prelude.ts';
 import { Categories } from '~/lib/api/tags.ts';
 import { Bubble } from '~/lib/components/Bubble';
-import { WithFilter } from '~/App.tsx';
+import { UseFilter } from '~/lib/filter.ts';
 
-interface Props extends UseStateProps<string, 'currCategory'>, Pick<WithFilter, 'filter'> {
+interface Props extends UseStateProps<string, 'currCategory'>, Pick<UseFilter, 'filter'> {
   categories: Categories,
 }
 
@@ -34,7 +34,7 @@ export const Selector = ({ categories, filter, currCategory, setCurrCategory }: 
       <i className={s.icon}/>
       <ul className={s.list}>{
         categoryNames.map((category) => {
-          const numSelected = (filter.type === 'tags' )
+          const numSelected = (filter.type === 'normal' )
             ? categories[category].intersect(filter.tags).size
             : 0;
 

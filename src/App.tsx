@@ -1,43 +1,38 @@
 import { Header } from '~/sections/Header';
-import { Filter } from '~/sections/Filters';
+import { TagFilters } from '~/sections/Filters';
 import { Gallery } from '~/sections/Gallery';
 import s from './App.module.scss';
-import { useState } from 'react';
-import { UseStateProps } from '~/lib/prelude.ts';
+import { useReducer } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { OrderedSet } from 'immutable';
-import { fetchCategories, Tags } from '~/lib/api/tags.ts';
+import { fetchCategories } from '~/lib/api/tags.ts';
+import { DEFAULT_FILTER, filterReducer, UseFilter } from '~/lib/filter.ts';
 
-export type WithFilter = UseStateProps<Filter, 'filter'>;
+export const App = () => {
+  const [filter, filterDispatch] = useReducer(filterReducer, DEFAULT_FILTER);
 
-export type Filter =
-  | { type: 'tags', tags: Tags }
-  | { type: 'similar', key: string, title: string }
+  return <>
+    <Header filter={filter} filterDispatch={filterDispatch}/>
+    <main className={s.main}>
+      <Body filter={filter} filterDispatch={filterDispatch}/>
+    </main>
+  </>;
+}
 
-export const App = () => <>
-  <Header/>
-  <main className={s.main}>
-    <Body/>
-  </main>
-</>
-
-const Body = () => {
-  const query = useQuery({
+const Body = ({ filter, filterDispatch }: UseFilter) => {
+  const tagsQuery = useQuery({
     queryKey: ['tags'],
     queryFn: fetchCategories,
     staleTime: Infinity,
   });
 
-  const [filter, setFilter] = useState<Filter>({ type: 'tags', tags: OrderedSet() });
-
-  if (!query.data) {
+  if (!tagsQuery.data) {
     return <BodyLoading/>;
   }
 
   return <>
-    <Filter categories={query.data} filter={filter} setFilter={setFilter}/>
+    <TagFilters categories={tagsQuery.data} filter={filter} filterDispatch={filterDispatch}/>
     <div className={s.spacer}/>
-    <Gallery filter={filter} setFilter={setFilter}/>
+    <Gallery filter={filter} filterDispatch={filterDispatch}/>
   </>
 }
 

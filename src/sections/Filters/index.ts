@@ -1,1 +1,1 @@
-export * from './Filter.tsx';
+export * from './TagFilters.tsx';

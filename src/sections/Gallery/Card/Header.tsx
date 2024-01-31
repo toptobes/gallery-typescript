@@ -1,9 +1,9 @@
 import s from './Header.module.scss'
 import { TagsList } from '~/lib/components/Tags';
-import { WithFilter } from '~/App.tsx';
 import { Tags } from '~/lib/api/tags.ts';
+import { UseFilter } from '~/lib/filter.ts';
 
-interface Props extends WithFilter {
+interface Props extends UseFilter {
   title: string,
   tags: Tags,
 }

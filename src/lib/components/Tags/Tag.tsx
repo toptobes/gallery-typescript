@@ -1,27 +1,24 @@
 import s from './Tag.module.scss';
 import clsx from 'clsx';
 import { CSSProperties } from 'react';
-import { WithFilter } from '~/App.tsx';
-import { OrderedSet } from 'immutable';
+import { UseFilter } from '~/lib/filter.ts';
 
-interface Props extends WithFilter {
+interface Props extends UseFilter {
   name: string,
   mainColor?: string,
   invertedColor?: string,
 }
 
-export const Tag = ({ filter, setFilter, name, mainColor, invertedColor }: Props) => {
-  const onClick = () => setFilter((filter) =>
-    filter.type === 'similar'
-      ? { type: 'tags', tags: OrderedSet() } :
-    filter.tags.has(name)
-      ? { type: 'tags', tags: filter.tags.delete(name) }
-      : { type: 'tags', tags: filter.tags.add(name) }
-  );
+export const Tag = ({ filter, filterDispatch, name, mainColor, invertedColor }: Props) => {
+  const onClick = () => filterDispatch({ type: 'toggle-tag', tag: name });
 
-  const isSelected = (filter.type === 'tags' && filter.tags.has(name));
+  const isSelected = (filter.type === 'normal' && filter.tags.has(name));
 
   return <li style={{ '--main': mainColor, '--inverted': invertedColor } as CSSProperties}>
-    <button className={clsx(s.tag, isSelected && s.selected)} onClick={onClick}>{name}</button>
+    <button
+      className={clsx(s.tag, isSelected && s.selected)}
+      onClick={onClick}
+      aria-label={isSelected ? `Remove tag '${name}' from filter` : `Add tag '${name}' to filter`}
+    >{name}</button>
   </li>;
 }

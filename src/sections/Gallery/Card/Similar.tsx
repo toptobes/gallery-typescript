@@ -1,14 +1,18 @@
 import s from './Similar.module.scss';
-import { WithFilter } from '~/App.tsx';
-import { CardInfo } from '~/lib/api/apps.ts';
+import { AppInfo } from '~/lib/api/apps.ts';
+import { UseFilter } from '~/lib/filter.ts';
 
-type Props = Pick<WithFilter & CardInfo, 'setFilter' | 'id' | 'title'>
+type Props = Pick<UseFilter & AppInfo, 'filterDispatch' | 'id' | 'title'>
 
-export const Similar = ({ setFilter, id, title }: Props) => {
+export const Similar = ({ filterDispatch, id, title }: Props) => {
   const onClick = () => {
-    setFilter({ type: 'similar', key: id, title });
-    console.log('key:', 'title:', title)
+    filterDispatch({ type: 'set-similar', key: id, title });
   }
 
-  return <button className={s.similar} onClick={onClick}/>;
+  return <button
+    className={s.similar}
+    onClick={onClick}
+    title={`Find similar apps`}
+    aria-label={`Find apps similar to '${title}'`}
+  />;
 }

@@ -8,8 +8,18 @@ type CategoriesDTO = {
   tags: string[],
 }[];
 
-const processCategories = (categories: CategoriesDTO): Categories =>
-  categories.reduce((acc, { _id, tags }) => ({ ...acc, [_id]: OrderedSet(tags) }), {});
+const names = {
+  languages: 'Languages',
+  integrations: 'Integrations',
+  frameworks: 'Frameworks',
+  apis: 'APIs',
+  usecases: 'Use Cases',
+  technology: 'Technology',
+} as const;
+
+const processCategories = (categories: CategoriesDTO): Categories => categories
+  .filter(({ _id }) => _id in names)
+  .reduce((acc, { _id, tags }) => ({ ...acc, [names[_id as keyof typeof names]]: OrderedSet(tags) }), {});
 
 export const fetchCategories = () =>
   fetch('/.netlify/functions/getTags')

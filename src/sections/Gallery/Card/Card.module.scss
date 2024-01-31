@@ -20,6 +20,11 @@
   padding: 1rem;
   border-radius: 20px;
   display: flex;
+  box-shadow: 0 3px 12px 4px l.gray(0, 0.25);
+}
+
+.margin-top {
+  margin-top: 1rem;
 }
 
 .buttons {
