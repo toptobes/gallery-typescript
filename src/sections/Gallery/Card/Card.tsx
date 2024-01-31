@@ -7,6 +7,7 @@ import clsx from 'clsx';
 import { FoundIn } from '~/sections/Gallery/Card/FoundIn.tsx';
 import { UseFilter } from '~/lib/filter.ts';
 import p404 from '~/assets/images/404.webp';
+import { Stats } from '~/sections/Gallery/Card/Stats.tsx';
 
 export const Card = ({ id, title, url, tags, difficulty, time, yt, gh, searchField, filter, filterDispatch }: AppInfo & UseFilter) => {
   const ref = useRef<HTMLDivElement>(null);
@@ -34,26 +35,13 @@ export const Card = ({ id, title, url, tags, difficulty, time, yt, gh, searchFie
   >
     <img src={src} alt="" className={s.background} rel={src === p404 ? 'preload' : undefined}/>
     <div className={s.overlay}>
-      <Header title={title} tags={tags} filterDispatch={filterDispatch} filter={filter}/>
+      <Header title={title} tags={tags} inView={inView} filterDispatch={filterDispatch} filter={filter}/>
     </div>
     <div className={s.buttons}>
       <button className={s.learnMore}>Learn More</button>
       <button className={s.tryItNow}>Try It Now</button>
     </div>
-    <div className={s.stats}>
-      <div>
-        <div className={s.statDifficulty}>{difficulty}</div>
-        <div className={s.statTime}>{time}</div>
-      </div>
-      <div>
-        {yt && <div className={s.statViews}>{yt.views}</div>}
-        {gh && <div className={s.statStars}>{gh.stars}</div>}
-      </div>
-      <div>
-        {yt && <div className={s.statLikes}>{yt.likes}</div>}
-        {gh && <div className={s.statForks}>{gh.forks}</div>}
-      </div>
-    </div>
+    {inView && <Stats difficulty={difficulty} time={time} yt={yt} gh={gh}/>}
     <Similar filterDispatch={filterDispatch} id={id} title={title}/>
     <FoundIn field={searchField}/>
   </article>;

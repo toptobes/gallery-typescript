@@ -1,0 +1,46 @@
+@use "../../../styles/lib" as l;
+
+.stats {
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  color: white;
+  @include l.flex-center;
+  align-items: flex-end;
+  gap: .75rem;
+
+  & > div {
+    @include l.flex-center;
+    align-items: flex-start;
+    gap: .75rem;
+    flex-direction: column;
+    font-size: 14px;
+    font-weight: 500;
+  }
+}
+
+@mixin mk-stat($name, $icon, $bg-size: initial) {
+  .stat--#{$name} {
+    display: flex;
+    align-items: center;
+    gap: .375rem;
+
+    &::before {
+      content: '';
+      background: l.icon($icon);
+      display: inline-block;
+      @include l.size(16px);
+      filter: invert(100%);
+      background-size: $bg-size;
+    }
+  }
+}
+
+@include mk-stat('difficulty', 'person');
+@include mk-stat('time', 'clock', 100%);
+
+@include mk-stat('likes', 'likes');
+@include mk-stat('views', 'views');
+
+@include mk-stat('stars', 'stars');
+@include mk-stat('forks', 'forks');

@@ -1,6 +1,6 @@
 import { Header } from '~/sections/Header';
 import s from './App.module.scss';
-import React, { Suspense, useReducer } from 'react';
+import { Suspense, useReducer } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { fetchCategories } from '~/lib/api/tags.ts';
 import { DEFAULT_FILTER, filterReducer, UseFilter } from '~/lib/filter.ts';

@@ -1,5 +1,4 @@
 import { Header } from '~/sections/Gallery/Header.tsx';
-// import { Card } from '~/sections/Gallery/Card/Card.tsx';
 import s from './Gallery.module.scss';
 import { useQuery } from '@tanstack/react-query';
 import { AppInfo, fetchCards } from '~/lib/api/apps.ts';
