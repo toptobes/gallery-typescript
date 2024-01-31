@@ -9,10 +9,11 @@ interface Props extends UseFilter {
   listClass?: string,
   mainColor?: string,
   invertedColor?: string,
+  label: string,
 }
 
-export const TagsList = ({ tags, listClass, ...props }: Props) =>
-  <ul className={clsx(s.list, listClass)}>{
+export const TagsList = ({ tags, listClass, label, ...props }: Props) =>
+  <ul className={clsx(s.list, listClass)} aria-label={label}>{
     tags.map((tag) =>
       <Tag name={tag} key={tag} {...props}/>)
   }</ul>

@@ -13,5 +13,16 @@ export const ClearFilters = ({ filter, filterDispatch }: UseFilter) => {
     return null;
   }
 
-  return <button className={s.btn} onClick={() => filterDispatch({ type: 'clear-filters' })}>{text}</button>;
+  const label =
+    (filter.type === 'similar')
+      ? 'Clear the similarity search to go back to all applications'
+      : 'Clear all filters to go back to all applications'
+
+  return <button
+    className={s.btn}
+    onClick={() => filterDispatch({ type: 'clear-filters' })}
+    aria-label={label}
+  >
+    {text}
+  </button>;
 }

@@ -30,15 +30,15 @@ export const Selector = ({ categories, filter, currCategory, setCurrCategory }: 
   }, [filter, selectedRef]);
 
   return <div className={s.wrapper}>
-    <header className={s.header}>
+    <header className={s.header} aria-label="The tag categories tab switcher">
       <i className={s.icon}/>
-      <ul className={s.list}>{
+      <ul className={s.list} aria-label="The list of possible category tabs to choose">{
         categoryNames.map((category) => {
           const numSelected = (filter.type === 'normal' )
             ? categories[category].intersect(filter.tags).size
             : 0;
 
-          return <li key={category} className={clsx(category === currCategory && s.selected)}>
+          return <li key={category} className={clsx(category === currCategory && s.selected)} aria-label={`The category ${category} which contains ${numSelected} currently selected tags`}>
             <button onClick={onClick(category)}>
               <span>{category}</span>
               {/*{numSelected > 0 && <em>{numSelected}</em>}*/}

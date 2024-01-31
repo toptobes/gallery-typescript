@@ -23,7 +23,7 @@ export const Gallery = ({ filter, ...props }: UseFilter) => {
     ? search(filter.query, appsQuery.data)
     : appsQuery.data;
 
-  return <section>
+  return <section aria-label="All application results">
     <Header numApps={searched.size} filter={filter} {...props}/>
     <div className={s.cards}>
       {searched.map((card, i) =>

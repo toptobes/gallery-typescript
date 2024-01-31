@@ -24,7 +24,12 @@ export const Card = ({ id, title, url, tags, difficulty, time, yt, gh, searchFie
     return () => observer.disconnect();
   }, []);
 
-  return <article className={clsx(inView ? s.cardImg : s.cardImgLazy, searchField && s.marginTop)} style={{ '--bg-url': `url("${url}")` } as CSSProperties} ref={ref}>
+  return <article
+    aria-label="App card"
+    className={clsx(inView ? s.cardImg : s.cardImgLazy, searchField && s.marginTop)}
+    style={{ '--bg-url': `url("${url}")` } as CSSProperties}
+    ref={ref}
+  >
     <div className={s.overlay}>
       <Header title={title} tags={tags} filterDispatch={filterDispatch} filter={filter}/>
     </div>

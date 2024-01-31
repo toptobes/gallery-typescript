@@ -15,7 +15,7 @@ export const Header = ({ filter, numApps }: Props) =>
         ? ('All applications' + matchStr(filter.query))
         : `Apps${matchStr(filter.query)} with tag${filter.tags.size > 1 ? 's' : ''} ${filter.tags.map(tag => `'${tag}'`).join(', ').replace(/, ([^,]*)$/, ' or $1')}`
     }</h2>
-    <Bubble number={numApps}/>
+    <Bubble number={numApps} label="The total number of applications matching the above filter"/>
   </header>
 
 const matchStr = (query: string) => (query ? ` matching '${query}'` : '')
