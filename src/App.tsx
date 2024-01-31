@@ -44,6 +44,6 @@ const BodyLoading = () =>
   <em>Loading...</em>;
 
 const preload = () => {
-  TagFilters.preload().then();
-  Gallery.preload().then();
+  void TagFilters.preload();
+  void Gallery.preload();
 }

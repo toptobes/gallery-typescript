@@ -10,7 +10,7 @@ import { Suspense } from 'react';
 const Card = lazyWithPreload(() => import('~/sections/Gallery/Card/Card').then(m => ({ default: m.Card })));
 
 export const Gallery = ({ filter, ...props }: UseFilter) => {
-  Card.preload().then();
+  void Card.preload();
 
   const querylessFilter = { ...filter, query: '' };
 

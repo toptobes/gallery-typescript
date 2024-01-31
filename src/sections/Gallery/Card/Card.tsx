@@ -1,6 +1,6 @@
 import s from './Card.module.scss';
 import { Header } from '~/sections/Gallery/Card/Header.tsx';
-import { CSSProperties, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { AppInfo } from '~/lib/api/apps.ts';
 import { Similar } from '~/sections/Gallery/Card/Similar.tsx';
 import clsx from 'clsx';
