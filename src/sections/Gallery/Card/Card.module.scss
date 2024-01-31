@@ -1,16 +1,18 @@
 @use "../../../styles/lib" as l;
 
-.card-img {
-  background: var(--bg-url) no-repeat center, url('~/assets/images/404.webp') no-repeat center;
-  background-size: cover;
+.background {
+  position: absolute;
+    top: 0;
+    left: 0;
+  @include l.size(100%);
   aspect-ratio: 2 / 1;
   border-radius: 20px;
-  position: relative;
+  object-fit: cover;
 }
 
-.card-img--lazy {
-  @extend .card-img;
-  background: none;
+.card {
+  aspect-ratio: 2 / 1;
+  position: relative;
 }
 
 .overlay {
