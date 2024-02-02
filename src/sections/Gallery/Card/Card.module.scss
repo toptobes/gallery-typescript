@@ -2,8 +2,8 @@
 
 .background {
   position: absolute;
-    top: 0;
-    left: 0;
+  top: 0;
+  left: 0;
   @include l.size(100%);
   aspect-ratio: 2 / 1;
   border-radius: 20px;
@@ -37,38 +37,5 @@
 
   :first-child {
     margin-right: 1rem;
-  }
-}
-
-.learn-more {
-  @include l.reset-button;
-  transition: all l.$btn-color-trans;
-  font-weight: 500;
-
-  &:hover {
-    filter: drop-shadow(0 0 10px white);
-  }
-}
-
-.try-it-now {
-  background-color: #7724AA;
-  border: none;
-  padding: .64rem .92rem;
-  border-radius: 10px;
-  font-weight: 600;
-  transition: background-color l.$btn-color-trans;
-
-  &::after {
-    content: '';
-    background: l.icon('dropdown');
-    filter: invert(100%);
-    display: inline-block;
-    @include l.size(1rem);
-    margin-left: .5rem;
-    transform: translateY(20%);
-  }
-
-  &:hover {
-    background-color: #5a249b;
   }
 }

@@ -1,5 +1,5 @@
 @function gray($lightness, $alpha: 1) {
-  @return rgba(0, 0, 0, $alpha);
+  @return rgba($lightness, $lightness, $lightness, $alpha);
 }
 
 @function icon($name) {

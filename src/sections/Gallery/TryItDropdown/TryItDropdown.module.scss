@@ -1,0 +1,73 @@
+@use "../../../styles/lib" as l;
+
+.list {
+  position: absolute;
+  list-style-type: none;
+  bottom: -2px;
+  box-shadow: 0 2px 6px 2px rgba(0, 0, 0, 0.25);
+  background-color: l.$background;
+  border-radius: 0.5rem;
+  color: l.$m-black;
+  z-index: 1;
+  padding: .5rem;
+}
+
+.item {
+  width: 100%;
+  position: relative;
+
+  &:not(:last-child) {
+    margin-bottom: .75rem;
+
+    &::after {
+      content: '';
+      display: block;
+      width: 100%;
+      height: 1px;
+      background-color: l.$border-gray;
+      position: absolute;
+      bottom: -.5rem;
+      left: 0;
+    }
+  }
+}
+
+.link {
+  padding: .5rem;
+  color: inherit;
+  text-decoration: none;
+  display: flex;
+  transition: background-color l.$btn-color-trans;
+  border-radius: .25rem;
+  width: 100%;
+  align-items: center;
+  white-space: nowrap;
+  text-align: start;
+
+  &:hover {
+    background-color: l.gray(200);
+  }
+
+  &:visited {
+    color: inherit;
+  }
+
+  & > span {
+    transform: translateY(2px);
+  }
+}
+
+@mixin mk-icon($name) {
+  .#{$name}-icon {
+    display: block;
+    background: l.icon($name);
+    background-size: contain;
+    @include l.size(1.5rem);
+    @content;
+  }
+}
+
+@include mk-icon('youtube');
+@include mk-icon('github');
+@include mk-icon('gitpod');
+@include mk-icon('website');

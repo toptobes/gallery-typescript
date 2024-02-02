@@ -1,6 +1,7 @@
 import { List, OrderedSet } from 'immutable';
 import { Tags } from '~/lib/api/tags.ts';
 import { Filter } from '~/lib/filter.ts';
+import { Map } from 'immutable';
 
 export type SearchField = 'Title' | 'Description' | 'Readme';
 
@@ -13,6 +14,7 @@ export interface AppInfo {
   url: string,
   difficulty: string,
   time: string,
+  links: AppLinks,
   yt?: {
     views: string | number,
     likes: string | number,
@@ -23,6 +25,9 @@ export interface AppInfo {
   },
   searchField?: SearchField,
 }
+
+type AppLinkKey = 'gitpod' | 'youtube' | 'github' | 'demo';
+export type AppLinks = Map<AppLinkKey, string>
 
 interface AppInfoDTO {
   key: string,
@@ -36,9 +41,7 @@ interface AppInfoDTO {
   tags: string[],
   views?: number,
   likes?: number,
-  urls: {
-    heroimage?: string,
-  }
+  urls: Partial<Record<AppLinkKey | 'heroimage', string>>,
 }
 
 const processCards = (apps: AppInfoDTO[]): AppInfo[] =>
@@ -59,6 +62,7 @@ const processCards = (apps: AppInfoDTO[]): AppInfo[] =>
       stars: dto.stargazers_count,
       forks: dto.forks_count,
     } : undefined,
+    links: Map(dto.urls).delete('heroimage') as AppLinks,
   }));
 
 export const fetchCards = (filter: Filter) =>

@@ -6,6 +6,8 @@ import { List } from 'immutable';
 import { UseFilter } from '~/lib/filter.ts';
 import lazyWithPreload from 'react-lazy-with-preload';
 import { Suspense } from 'react';
+import { useModalState } from '~/lib/hooks/useModal.ts';
+import { LearnMoreModal } from '~/sections/Gallery/LearnMore/LearnMoreModal.tsx';
 
 const Card = lazyWithPreload(() => import('~/sections/Gallery/Card/Card').then(m => ({ default: m.Card })));
 
@@ -20,6 +22,8 @@ export const Gallery = ({ filter, ...props }: UseFilter) => {
     gcTime: 0,
   });
 
+  const { modalProps, showModal } = useModalState<AppInfo>({ noBodyScroll: true });
+
   if (!appsQuery.data) {
     return <em>Loading...</em>;
   }
@@ -31,9 +35,10 @@ export const Gallery = ({ filter, ...props }: UseFilter) => {
   return <Suspense fallback={<em>Loading...</em>}>
     <section aria-label="All application results">
       <Header numApps={searched.size} filter={filter} {...props}/>
+      <LearnMoreModal {...modalProps}/>
       <div className={s.cards}>
         {searched.map((card, i) =>
-          <Card {...card} key={i} filter={filter} {...props}/>)}
+          <Card {...card} key={i} filter={filter} showModal={showModal} {...props}/>)}
       </div>
     </section>
   </Suspense>
@@ -48,14 +53,16 @@ const search = (query: string, apps: List<AppInfo>): List<AppInfo> => {
 
   const lowerCaseQuery = query.toLowerCase();
 
-  const filtered = apps.reduce((acc, app) => {
-    for (const [field, tag] of searchFields) {
-      if (app[field]?.toLowerCase().includes(lowerCaseQuery)) {
-        return acc.push({ ...app, searchField: tag });
+  const filtered = apps
+    .reduce((acc, app) => {
+      for (const [field, tag] of searchFields) {
+        if (app[field]?.toLowerCase().includes(lowerCaseQuery)) {
+          return acc.push({ ...app, searchField: tag });
+        }
       }
-    }
-    return acc;
-  }, List<AppInfo>());
+      return acc;
+    }, List<AppInfo>().asMutable())
+    .asImmutable();
 
   return filtered.sortBy(a => fieldVals[a.searchField!], (a, b) => b - a);
 };

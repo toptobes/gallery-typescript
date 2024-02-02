@@ -1,0 +1,11 @@
+@use "../../../styles/lib" as l;
+
+.learn-more {
+  @include l.reset-button;
+  transition: all l.$btn-color-trans;
+  font-weight: 500;
+
+  &:hover {
+    filter: drop-shadow(0 0 10px white);
+  }
+}

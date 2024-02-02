@@ -1,6 +1,7 @@
 @use "lib" as l;
 
 @import "node_modules/normalize-scss/sass/normalize";
+
 @include normalize;
 
 :root {
@@ -18,7 +19,7 @@
 }
 
 body {
-  width: min(90vw, 80rem);
+  width: min(92vw, 80rem);
   padding-block: 2rem;
   margin: 0 auto;
   overflow-x: clip;
@@ -30,4 +31,22 @@ body {
 
 button, input {
   cursor: pointer;
+}
+
+
+::-webkit-scrollbar {
+  width: 0.5rem;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: l.$border-gray;
+  border-radius: 0.25rem;
+
+  &:hover {
+    background-color: l.$very-light-gray;
+  }
+}
+
+::-webkit-scrollbar-track {
+  background-color: transparent;
 }

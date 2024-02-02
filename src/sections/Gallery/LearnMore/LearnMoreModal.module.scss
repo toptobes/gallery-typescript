@@ -1,0 +1,60 @@
+@use "../../../styles/lib" as l;
+
+.modal {
+  background: l.$background;
+  width: min(94vw, 90rem);
+  color: l.$m-black;
+  outline: none;
+  border: 1px solid l.$border-gray;
+  border-radius: 10px;
+  isolation: isolate;
+  padding: 0;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  flex-flow: row nowrap;
+  border-bottom: 1px solid l.$border-gray;
+  box-shadow: 0 3px 6px 0 l.gray(20, .2);
+  z-index: 1;
+  padding: 1.5rem 2rem 0 2rem;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: l.$very-light-gray;
+  font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  margin-block: 0 1rem;
+}
+
+.close {
+  @include l.size(2rem);
+  cursor: pointer;
+  color: l.$m-black;
+  background-color: l.gray(240);
+  border: none;
+  border-radius: 50%;
+  font-weight: 600;
+  transition: background-color l.$btn-color-trans;
+  line-height: 2rem;
+  text-align: center;
+  margin-bottom: 1.5rem;
+
+  &:hover {
+    background-color: l.gray(200);
+  }
+}
+
+.content {
+  padding: 0 2.5rem 2.5rem 2.5rem;
+  max-height: 80vh;
+  overflow-y: auto;
+
+  img {
+    max-width: 100%;
+  }
+}

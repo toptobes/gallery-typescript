@@ -1,0 +1,25 @@
+@use "../../../styles/lib" as l;
+
+.try-it-now {
+  background-color: #7724aa;
+  border: none;
+  padding: .64rem .92rem;
+  border-radius: 10px;
+  font-weight: 600;
+  transition: background-color l.$btn-color-trans;
+  position: relative;
+
+  &::after {
+    content: '';
+    background: l.icon('dropdown');
+    filter: invert(100%);
+    display: inline-block;
+    @include l.size(1rem);
+    margin-left: .5rem;
+    transform: translateY(20%);
+  }
+
+  &:hover, &:focus-within {
+    background-color: #4a148c;
+  }
+}

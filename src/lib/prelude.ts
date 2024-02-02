@@ -8,6 +8,8 @@ export type UseStateProps<T, Name extends string> = {
 
 export const id = <T>(t: T): T => t;
 
+export const not = (b: boolean) => !b;
+
 export const prevDefault = <E extends { preventDefault: () => void }>(fn: (e: E) => void) => (e: E) => {
   e.preventDefault();
   fn(e);

@@ -8,8 +8,15 @@ import { FoundIn } from '~/sections/Gallery/Card/FoundIn.tsx';
 import { UseFilter } from '~/lib/filter.ts';
 import p404 from '~/assets/images/404.webp';
 import { Stats } from '~/sections/Gallery/Card/Stats.tsx';
+import { LearnMoreBtn } from '~/sections/Gallery/LearnMore/LearnMoreBtn.tsx';
+import { Consumer } from '~/lib/prelude.ts';
+import { TryItBtn } from '~/sections/Gallery/TryItDropdown/TryItBtn.tsx';
 
-export const Card = ({ id, title, url, tags, difficulty, time, yt, gh, searchField, filter, filterDispatch }: AppInfo & UseFilter) => {
+interface Props extends AppInfo, UseFilter {
+  showModal: Consumer<AppInfo>,
+}
+
+export const Card = ({ filter, filterDispatch, showModal, ...app }: Props) => {
   const ref = useRef<HTMLDivElement>(null);
   const [inView, setInView] = useState(false);
 
@@ -26,23 +33,23 @@ export const Card = ({ id, title, url, tags, difficulty, time, yt, gh, searchFie
     return () => observer.disconnect();
   }, []);
 
-  const src = (url && inView) ? url : p404
+  const src = (app.url && inView) ? app.url : p404
 
   return <article
     aria-label="App card"
-    className={clsx(s.card, searchField && s.marginTop)}
+    className={clsx(s.card, app.searchField && s.marginTop)}
     ref={ref}
   >
     <img src={src} alt="" className={s.background} rel={src === p404 ? 'preload' : undefined}/>
     <div className={s.overlay}>
-      <Header title={title} tags={tags} inView={inView} filterDispatch={filterDispatch} filter={filter}/>
+      <Header title={app.title} tags={app.tags} inView={inView} filterDispatch={filterDispatch} filter={filter}/>
     </div>
     <div className={s.buttons}>
-      <button className={s.learnMore}>Learn More</button>
-      <button className={s.tryItNow}>Try It Now</button>
+      <LearnMoreBtn showModal={showModal} app={app}/>
+      <TryItBtn links={app.links}/>
     </div>
-    {inView && <Stats difficulty={difficulty} time={time} yt={yt} gh={gh}/>}
-    <Similar filterDispatch={filterDispatch} id={id} title={title}/>
-    <FoundIn field={searchField}/>
+    {inView && <Stats difficulty={app.difficulty} time={app.time} yt={app.yt} gh={app.gh}/>}
+    <Similar filterDispatch={filterDispatch} id={app.id} title={app.title}/>
+    <FoundIn field={app.searchField}/>
   </article>;
 }
