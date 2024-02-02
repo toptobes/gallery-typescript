@@ -42,7 +42,7 @@ export const Card = ({ filter, filterDispatch, showModal, ...app }: Props) => {
   >
     <img src={src} alt="" className={s.background} rel={src === p404 ? 'preload' : undefined}/>
     <div className={s.overlay}>
-      <Header title={app.title} tags={app.tags} inView={inView} filterDispatch={filterDispatch} filter={filter}/>
+      <Header app={app} inView={inView} filterDispatch={filterDispatch} filter={filter}/>
     </div>
     <div className={s.buttons}>
       <LearnMoreBtn showModal={showModal} app={app}/>

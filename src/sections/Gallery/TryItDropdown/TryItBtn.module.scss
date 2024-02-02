@@ -21,6 +21,7 @@
     display: inline-block;
     @include l.size(1rem);
     transform: translateY(20%);
+    margin-left: .5rem;
   }
 
   &:hover, &:focus-within {

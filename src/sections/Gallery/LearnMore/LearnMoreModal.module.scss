@@ -9,6 +9,7 @@
   border-radius: 10px;
   isolation: isolate;
   padding: 0;
+  box-shadow: 0 3px 12px 3px l.gray(20, .2);
 }
 
 .header {
@@ -18,7 +19,7 @@
   position: relative;
   flex-flow: row nowrap;
   border-bottom: 1px solid l.$border-gray;
-  box-shadow: 0 3px 6px 0 l.gray(20, .2);
+  box-shadow: 0 3px 6px 0 l.gray(20, .15);
   z-index: 1;
   padding: 1.5rem 2rem 0 2rem;
 }
@@ -53,6 +54,7 @@
   padding: 0 2.5rem 2.5rem 2.5rem;
   max-height: 80vh;
   overflow-y: auto;
+  background: l.gray(240);
 
   img {
     max-width: 100%;

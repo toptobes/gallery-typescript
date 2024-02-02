@@ -16,9 +16,9 @@
 }
 
 .overlay {
-  backdrop-filter: blur(3px);
+  backdrop-filter: blur(4px);
   @include l.size(100%);
-  background: linear-gradient(to bottom, l.gray(0, .75), l.gray(0, 0.5), l.gray(0, .75));
+  background: linear-gradient(to bottom, l.gray(0, .775), l.gray(0, 0.5), l.gray(0, .775));
   padding: 1rem;
   border-radius: 20px;
   display: flex;
@@ -35,7 +35,7 @@
   right: 1rem;
   font-size: 16px;
 
-  :first-child {
+  & > button:first-child {
     margin-right: 1rem;
   }
 }
