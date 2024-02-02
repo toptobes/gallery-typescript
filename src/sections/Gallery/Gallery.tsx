@@ -65,10 +65,10 @@ const search = (query: string, apps: List<AppInfo>): List<AppInfo> => {
     .asImmutable();
 
   return filtered.sortBy(a => fieldVals[a.searchField!], (a, b) => b - a);
-};
+}
 
 const fieldVals = {
   Title: 3,
   Description: 2,
   Readme: 1,
-};
+}

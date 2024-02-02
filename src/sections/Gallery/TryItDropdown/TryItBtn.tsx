@@ -12,6 +12,6 @@ export const TryItBtn = ({ links }: Props) => {
 
   return <button className={s.tryItNow} onFocus={() => setDropdownOpen(true)} onBlur={(e) => !e.currentTarget.contains(e.relatedTarget) && setDropdownOpen(false)}>
     {dropdownOpen && <TryItDropdown links={links}/>}
-    Try It Now
+    <span>Try It Now</span>
   </button>;
 }

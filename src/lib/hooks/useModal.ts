@@ -21,10 +21,9 @@ interface _UseModalArgs<A, S> {
   noBodyScroll?: boolean,
 }
 
-export type UseModalArgs<A, S> =
-  A extends S
-      ? Partial<_UseModalArgs<A, S>>
-    : _UseModalArgs<A, S>;
+export type UseModalArgs<A, S> = A extends S
+  ? Partial<_UseModalArgs<A, S>>
+  : _UseModalArgs<A, S>;
 
 interface StateWrapper<S> {
   state: S,

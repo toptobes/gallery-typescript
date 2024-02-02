@@ -4,8 +4,8 @@
   @include l.size(3rem);
   @include l.flex-center;
   position: absolute;
-  top: -1rem;
-  right: -1rem;
+  top: -1.25rem;
+  right: -1.15rem;
   border-radius: 50%;
   background: white l.icon('magnifying-glass');
   background-size: 50%;

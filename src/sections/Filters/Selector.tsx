@@ -55,6 +55,6 @@ export const Selector = ({ categories, filter, currCategory, setCurrCategory }: 
 }
 
 const calcUnderline = (selected: HTMLElement, border: HTMLElement) => ({
-  transform: `scaleX(${selected.offsetWidth})`,
-  left: selected.offsetLeft - border.offsetLeft,
+  transform: `scaleX(${selected.offsetWidth + 1})`,
+  left: selected.offsetLeft - border.offsetLeft - 1.25,
 });

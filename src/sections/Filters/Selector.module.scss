@@ -42,12 +42,19 @@ $bubble-size: 17px;
 
   & > li {
     display: inline;
+    margin-right: $gap * .85;
+    padding-block: $gap;
+    //transition: background-color l.$btn-color-trans;
+
+    //&:hover {
+    //  background-color: l.gray(240);
+    //}
   }
 }
 
 .list > li button {
   @include l.reset-button;
-  padding-inline: $gap;
+  padding-inline: $gap * 1.35;
 
   align-items: center;
   display: inline-flex;
@@ -57,6 +64,10 @@ $bubble-size: 17px;
 .list > li span {
   color: $gray;
 }
+
+//.list > li.selected {
+//  background-color: l.gray(240);
+//}
 
 .list > li.selected span {
   color: l.$d-black;
