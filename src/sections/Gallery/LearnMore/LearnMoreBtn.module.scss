@@ -5,6 +5,7 @@
   transition: all l.$btn-color-trans;
   font-weight: 500;
   filter: drop-shadow(0 0 5px rgb(white, 0.5));
+  color: l.$background;
 
   &:hover {
     filter: drop-shadow(0 0 12px white);

@@ -11,6 +11,7 @@
 
   & > span {
     filter: drop-shadow(0 0 5px rgb(white, 0.33));
+    color: l.$background;
   }
 
   &::after {
