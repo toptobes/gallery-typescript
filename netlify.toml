@@ -2,3 +2,6 @@
 command = "npm run build"
 functions = "functions"
 publish = "dist"
+
+[functions]
+node_bundler = "esbuild"

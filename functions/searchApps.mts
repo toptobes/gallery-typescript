@@ -1,42 +1,31 @@
-import { AstraDB, Collection } from "@datastax/astra-db-ts";
-import { Handler } from "@netlify/functions";
+import { AstraDB } from '@datastax/astra-db-ts';
+import { Handler } from '@netlify/functions';
+import { appInfoProjection, found, shiftBlame } from './prelude.mts';
 
-const ASTRA_DB_API_ENDPOINT = process.env["ASTRA_DB_API_ENDPOINT"];
-const ASTRA_DB_APPLICATION_TOKEN = process.env["ASTRA_DB_APPLICATION_TOKEN"];
-
+const { ASTRA_DB_API_ENDPOINT, ASTRA_DB_APPLICATION_TOKEN } = process.env;
 const db = new AstraDB(ASTRA_DB_APPLICATION_TOKEN, ASTRA_DB_API_ENDPOINT);
 
-const handler: Handler = async (event, context) => {
-  let filter = {};
-  let collection = await db.collection("application_gallery");
-  let vector = [];
-  if (event.queryStringParameters && event.queryStringParameters.similar) {
-    let similar = await collection
-      .findOne({
-        key: event.queryStringParameters.similar,
-      })
-      .then((doc) => {
-        vector = doc["$vector"];
-      });
-    try {
-      let documents = [];
-      let collection = await db.collection("application_gallery");
-      await collection
-        .find({}, { sort: { $vector: vector } })
-        .forEach((doc) => {
-          documents.push(doc);
-        });
-      return {
-        statusCode: 200,
-        body: JSON.stringify(documents),
-      };
-    } catch (e) {
-      return {
-        statusCode: 400,
-        body: JSON.stringify(e),
-      };
-    }
+export const handler: Handler = async (event) => {
+  const targetID = event.queryStringParameters?.similar;
+
+  if (!targetID) {
+    return shiftBlame({ message: 'Missing similar query parameter' });
+  }
+
+  try {
+    const collection = await db.collection("application_gallery");
+
+    const target = await collection.findOne({ key: targetID })
+
+    const findOpts = {
+      sort: { $vector: target.$vector },
+      projection: appInfoProjection,
+    };
+
+    const documents = await collection.find({}, findOpts).toArray();
+
+    return found(documents);
+  } catch (e: unknown) {
+    return shiftBlame(e);
   }
 };
-
-export { handler };

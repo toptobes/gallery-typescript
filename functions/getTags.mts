@@ -1,31 +1,20 @@
-import { AstraDB, Collection } from "@datastax/astra-db-ts";
-import { Handler } from "@netlify/functions";
+import { AstraDB } from '@datastax/astra-db-ts';
+import { Handler } from '@netlify/functions';
+import { appInfoProjection, found, shiftBlame } from './prelude.mts';
 
-const ASTRA_DB_API_ENDPOINT = process.env["ASTRA_DB_API_ENDPOINT"];
-const ASTRA_DB_APPLICATION_TOKEN = process.env["ASTRA_DB_APPLICATION_TOKEN"];
-
+const { ASTRA_DB_API_ENDPOINT, ASTRA_DB_APPLICATION_TOKEN } = process.env;
 const db = new AstraDB(ASTRA_DB_APPLICATION_TOKEN, ASTRA_DB_API_ENDPOINT);
 
-const handler: Handler = async (event, context) => {
-  const options = { limit: 20 };
-
-  try {
-    let sections = [];
-    let collection = await db.collection("tag_gallery");
-    await collection.find({}, options).forEach((doc) => {
-      sections.push(doc);
-    });
-
-    return {
-      statusCode: 200,
-      body: JSON.stringify(sections),
-    };
-  } catch (e) {
-    return {
-      statusCode: 400,
-      body: JSON.stringify(e),
-    };
-  }
+const findOpts = {
+  limit: 20,
 };
 
-export { handler };
+export const handler: Handler = async () => {
+  try {
+    const collection = await db.collection('tag_gallery');
+    const sections = await collection.find({}, findOpts).toArray();
+    return found(sections);
+  } catch (e: unknown) {
+    return shiftBlame(e);
+  }
+};
