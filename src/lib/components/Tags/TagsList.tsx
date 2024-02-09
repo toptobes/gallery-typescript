@@ -7,13 +7,12 @@ import { UseFilter } from '~/lib/filter.ts';
 interface Props extends UseFilter {
   tags: Tags,
   listClass?: string,
-  mainColor?: string,
-  invertedColor?: string,
+  invertColor?: boolean,
   label: string,
 }
 
 export const TagsList = ({ tags, listClass, label, ...props }: Props) =>
   <ul className={clsx(s.list, listClass)} aria-label={label}>{
-    tags.map((tag) =>
+    tags.sort((a, b) => (a === 'deprecated' ? -1 :  b === 'deprecated' ? 1 : 0)).map((tag) =>
       <Tag name={tag} key={tag} {...props}/>)
   }</ul>

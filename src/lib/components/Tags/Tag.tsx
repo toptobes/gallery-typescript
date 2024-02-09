@@ -5,14 +5,25 @@ import { UseFilter } from '~/lib/filter.ts';
 
 interface Props extends UseFilter {
   name: string,
-  mainColor?: string,
-  invertedColor?: string,
+  invertColor?: boolean,
 }
 
-export const Tag = ({ filter, filterDispatch, name, mainColor, invertedColor }: Props) => {
+export const Tag = ({ filter, filterDispatch, name, invertColor }: Props) => {
   const onClick = () => filterDispatch({ type: 'toggle-tag', tag: name });
 
   const isSelected = (filter.type === 'normal' && filter.tags.has(name));
+
+  const highlightColor = (name === 'deprecated')
+    ? 'rgb(255,213,47)'
+    : 'white';
+
+  const mainColor = (invertColor)
+    ? highlightColor
+    : 'rgb(32, 41, 58)';
+
+  const invertedColor = (invertColor)
+    ? 'rgb(32, 41, 58)'
+    : highlightColor;
 
   return <li style={{ '--main': mainColor, '--inverted': invertedColor } as CSSProperties}>
     <button

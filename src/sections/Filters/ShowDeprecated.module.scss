@@ -1,0 +1,34 @@
+@use "src/styles/lib" as l;
+
+.btn {
+  //@extend .btn--activated;
+
+  $red: rgb(213, 38, 55);
+  $hover-red: rgb(232, 109, 115);
+
+  background: none;
+  color: $red;
+  border: 1px $red solid;
+
+  padding: .7rem;
+  border-radius: 10px;
+
+  @include l.flex-center;
+  align-items: center;
+  gap: .4rem;
+
+  &:hover, &:active {
+    border-color: $hover-red;
+    color: $hover-red;
+  }
+}
+
+.btn--activated {
+  color: l.$secondary-txt-gray;
+  border: 1px l.$border-gray solid;
+
+  &:hover, &:active {
+    border-color: l.$d-black;
+    color: l.$secondary-txt-gray;
+  }
+}

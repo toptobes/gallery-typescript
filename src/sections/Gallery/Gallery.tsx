@@ -14,11 +14,12 @@ const Card = lazyWithPreload(() => import('~/sections/Gallery/Card/Card').then(m
 export const Gallery = ({ filter, ...props }: UseFilter) => {
   void Card.preload();
 
-  const querylessFilter = { ...filter, query: '' };
+  // Only want it to refetch when relevant changes are made
+  const queryKey = { ...filter, query: '', showDeprecated: false };
 
   const appsQuery = useQuery({
-    queryKey: ['apps', querylessFilter],
-    queryFn: () => fetchCards(querylessFilter),
+    queryKey: ['apps', queryKey],
+    queryFn: () => fetchCards(queryKey),
     gcTime: 0,
   });
 
@@ -32,12 +33,16 @@ export const Gallery = ({ filter, ...props }: UseFilter) => {
     ? search(filter.query, appsQuery.data)
     : appsQuery.data;
 
+  const filtered = (filter.showDeprecated)
+    ? searched
+    : searched.filter(app => !app.tags.includes('deprecated'));
+
   return <Suspense fallback={<em>Loading...</em>}>
     <section aria-label="All application results">
-      <Header numApps={searched.size} filter={filter} {...props}/>
+      <Header numApps={filtered.size} filter={filter} {...props}/>
       <LearnMoreModal {...modalProps}/>
       <div className={s.cards}>
-        {searched.map((card, i) =>
+        {filtered.map((card, i) =>
           <Card {...card} key={i} filter={filter} showModal={showModal} {...props}/>)}
       </div>
     </section>
