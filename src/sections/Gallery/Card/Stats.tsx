@@ -24,17 +24,20 @@ export const Stats = ({ difficulty, time, yt, gh, lastModified }: Props) =>
 const timeAgo = (date: Date) => {
   const seconds = Math.floor((new Date().getTime() - date.getTime()) / 1000);
 
-  return (
+  const timeAgo =
     (seconds / 31536000 > 1)
-      ? Math.floor(seconds / 31536000) + " years ago" :
+      ? Math.floor(seconds / 31536000) + ' year' :
     (seconds / 2592000 > 1)
-      ? Math.floor(seconds / 2592000) + " months ago" :
+      ? Math.floor(seconds / 2592000) + ' month' :
     (seconds / 86400 > 1)
-      ? Math.floor(seconds / 86400) + " days ago" :
+      ? Math.floor(seconds / 86400) + ' day' :
     (seconds / 3600 > 1)
-      ? Math.floor(seconds / 3600) + " hours ago" :
+      ? Math.floor(seconds / 3600) + ' hour' :
     (seconds / 60 > 1)
-      ? Math.floor(seconds / 60) + " minutes ago" :
-      Math.floor(seconds) + " seconds ago"
-  );
+      ? Math.floor(seconds / 60) + ' minute'
+      : Math.floor(seconds) + ' second'
+
+  const plural = timeAgo.split(' ')[0] === '1' ? '' : 's';
+
+  return timeAgo + plural + " ago";
 }
