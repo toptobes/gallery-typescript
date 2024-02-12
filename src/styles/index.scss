@@ -19,10 +19,13 @@
 }
 
 body {
-  width: min(92vw, 80rem);
+  padding-inline: calc((100vw - 80rem) / 2);
   padding-block: 2rem;
-  margin: 0 auto;
   overflow-x: clip;
+
+  @media (max-width: 80rem) {
+    padding-inline: calc((100vw - 92vw) / 2);
+  }
 }
 
 * {
