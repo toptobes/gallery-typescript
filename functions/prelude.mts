@@ -12,7 +12,8 @@ export const appInfoProjection: ProjectionOption = {
   'tags': 1,
   'views': 1,
   'likes': 1,
-  'urls': 1
+  'urls': 1,
+  'last_modified': 1,
 };
 
 export const found = (body: unknown) => ({

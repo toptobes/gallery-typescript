@@ -48,7 +48,7 @@ export const Card = ({ filter, filterDispatch, showModal, ...app }: Props) => {
       <LearnMoreBtn showModal={showModal} app={app}/>
       <TryItBtn links={app.links}/>
     </div>
-    {inView && <Stats difficulty={app.difficulty} time={app.time} yt={app.yt} gh={app.gh}/>}
+    {inView && <Stats difficulty={app.difficulty} time={app.time} yt={app.yt} gh={app.gh} lastModified={app.lastModified}/>}
     <Similar filterDispatch={filterDispatch} id={app.id} title={app.title}/>
     <FoundIn field={app.searchField}/>
   </article>;

@@ -24,6 +24,7 @@ export interface AppInfo {
     forks: string | number,
   },
   searchField?: SearchField,
+  lastModified: Date,
 }
 
 type AppLinkKey = 'gitpod' | 'youtube' | 'github' | 'demo';
@@ -42,6 +43,7 @@ interface AppInfoDTO {
   views?: number,
   likes?: number,
   urls: Partial<Record<AppLinkKey | 'heroimage', string>>,
+  last_modified: string,
 }
 
 const processCards = (apps: AppInfoDTO[]): AppInfo[] =>
@@ -63,6 +65,7 @@ const processCards = (apps: AppInfoDTO[]): AppInfo[] =>
       forks: dto.forks_count,
     } : undefined,
     links: Map(dto.urls).delete('heroimage') as AppLinks,
+    lastModified: new Date(dto.last_modified),
   }));
 
 export const fetchCards = (filter: Filter) =>

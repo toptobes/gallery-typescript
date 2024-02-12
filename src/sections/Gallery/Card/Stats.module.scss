@@ -38,6 +38,7 @@
 
 @include mk-stat('difficulty', 'person');
 @include mk-stat('time', 'clock', 100%);
+@include mk-stat('date', 'date');
 
 @include mk-stat('likes', 'likes');
 @include mk-stat('views', 'views');
